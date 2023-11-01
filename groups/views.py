@@ -9,6 +9,24 @@ from django.utils import timezone
 from products.models import Product
 from django.contrib.auth.decorators import login_required
 from payments.views import initiate_payment
+from django.urls import reverse
+
+@login_required
+def add_to_group(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    
+    # Check if a group for this product already exists
+    try:
+        group = Group.objects.get(product=product)
+    except Group.DoesNotExist:
+        # If the group doesn't exist, create a new group
+        group = Group.objects.create(product=product)
+    
+    # Add the product to the group
+    group.products.add(product)
+    
+    # Redirect to the appropriate view, e.g., the product detail view
+    return redirect('product_detail', product_id=product_id)
 
 class GroupListView(ListView):
     model = Group
@@ -27,9 +45,15 @@ class GroupCreateView(CreateView):
     success_url = reverse_lazy('group_list')
 
     def form_valid(self, form):
-        product_id = self.kwargs.get('product_id')  # Get the product ID from the URL
+        product_id = self.kwargs['product_id']  # Get the product ID from the URL
         product = get_object_or_404(Product, id=product_id)
-        form.set_group_details(product)
+        form.instance.product = product  # Set the product instance for the group
+        form.instance.name = product.name  # Automatically set name
+        form.instance.short_description = product.short_description  # Automatically set short_description
+        form.instance.group_image = product.product_cover_image.url  # Automatically set group_image
+        form.instance.status = "Pending"
+        form.instance.quantity = 1
+        form.instance.total_amount = product.amount * form.instance.quantity
         return super().form_valid(form)
 
 class GroupUpdateView(UpdateView):

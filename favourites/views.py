@@ -32,12 +32,11 @@ def remove_from_favorites(request, product_id):
 
     return redirect('product_detail', product_id=product_id)
 
-
 @login_required
 def favorite_list(request):
     favorites = Favorite.objects.filter(user=request.user)
     
-    return render(request, 'favorites/favorite_list.html', {'favorites': favorites})
+    return render(request, 'favourites/favourite_list.html', {'favorites': favorites})
 
 @login_required
 def filter_favorites(request):
@@ -53,4 +52,4 @@ def filter_favorites(request):
     if category:
         filtered_favorites = filtered_favorites.filter(product__category__name=category)
     
-    return render(request, 'favorites/favorite_list.html', {'filtered_favorites': filtered_favorites})
+    return render(request, 'favourites/favorite_list.html', {'filtered_favorites': filtered_favorites})

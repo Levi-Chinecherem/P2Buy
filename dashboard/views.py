@@ -10,7 +10,7 @@ def dashboard(request):
     favorite_count = Favorite.objects.count()
     group_count = Group.objects.count()
     
-    return render(request, 'dashboard.html', {
+    return render(request, 'dashboard/dashboard.html', {
         'product_count': product_count,
         'favorite_count': favorite_count,
         'group_count': group_count,

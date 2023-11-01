@@ -12,14 +12,11 @@
                         <p class="card-text">{{ product.short_description }}</p>
                         <p class="card-text">Amount: ${{ product.amount }}</p>
                         <a href="{% url 'product_detail' product.pk %}" class="btn btn-primary">Details</a>
-                        
-                        <form method="post" action="{% url 'add_to_group' product_id=product.pk %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="product_id" value="{{ product.pk }}">
-                            <input type="hidden" name="group_region" value="{{ product.group_region }}">
-                            <button type="submit" class="btn btn-success">Add to Group</button>
-                        </form>
-                        
+                        {% if product_groups.product_id is not None %}
+                            <a href="{% url 'add_to_group' product_id=product.id group_id=product_groups.product_id %}">Add to Group</a>
+                        {% else %}
+                            <a href="{% url 'group_create' product_id=product.id %}">Create Group</a>
+                        {% endif %}
                         <form method="post" action="{% url 'add_to_favorites' product_id=product.pk %}">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-info">Add to Favorites</button>
@@ -28,6 +25,7 @@
                 </div>
             </div>
         {% endfor %}
+
     </div>
 </div>
 {% endblock %}

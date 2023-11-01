@@ -26,10 +26,10 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'product_list' %}">Product List</a>
+                    <a class="nav-link" href="{% url 'product_list' %}">Products</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'favorite_list' %}">Favorites</a>
@@ -70,6 +70,7 @@
         {% block content %}
         {% endblock %}
     </div>
+    <br><br>
 
     <!-- Footer -->
     <footer class="footer bg-light text-center fixed-bottom">

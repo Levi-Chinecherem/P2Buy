@@ -40,14 +40,14 @@ def group_change_message(group_name, action):
 
 @login_required
 def notification_list(request):
-    notifications = Notification.objects.filter(recipient=request.user).order_by('-created_at')
+    notifications = Notification.objects.filter(recipient=request.user).order_by('-timestamp')
     return render(request, 'notifications/notification_list.html', {'notifications': notifications})
 
 class NotificationListView(ListView):
     model = Notification
     template_name = 'notifications/notification_list.html'
     context_object_name = 'notifications'
-    ordering = ['-created_at']
+    ordering = ['-timestamp']
     paginate_by = 10
 
 @receiver(post_save, sender=Notification)

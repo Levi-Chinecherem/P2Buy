@@ -6,14 +6,15 @@ from django.views.generic.edit import CreateView, UpdateView
 from .models import UserProfile
 
 class UserProfileCreateUpdateView(LoginRequiredMixin, UpdateView):
-    model = UserProfile
+    model = UserProfile  # Specify the model for the user profile
     form_class = UserProfileForm
     template_name = 'accounts/userprofile_form.html'
     success_url = reverse_lazy('userprofile')  # Redirect to the user's profile page
 
     def get_object(self, queryset=None):
         # Get the user's profile if it exists, otherwise create a new one
-        return self.request.user.userprofile
+        user_profile, created = UserProfile.objects.get_or_create(user=self.request.user)
+        return user_profile
 
     def form_valid(self, form):
         form.instance.user = self.request.user

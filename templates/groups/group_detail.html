@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
     <div class="card">
-        <img src="{{ group.group_image.url }}" class="card-img-top" alt="{{ group.name }}">
+        <img src="{{ group.group_image }}" class="card-img-top" alt="{{ group.name }}">
         <div class="card-body">
             <h1 class="card-title">{{ group.name }}</h1>
             <p class="card-text">{{ group.short_description }}</p>
