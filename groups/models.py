@@ -2,20 +2,28 @@ from django.db import models
 from products.models import Product
 from django.contrib.auth.models import User
 
-class STATUS_CHOICES(models.TextChoices):
-    OPEN = 'open', 'Open'
-    ORDER_PROCESSING = 'order_processing', 'Order Processing'
-    CLOSED = 'closed', 'Closed'
-    RECEIVED = 'received', 'Received'
 
 class Group(models.Model):
+    # Define the choices as strings
+    OPEN = 'Open'
+    ORDER_PROCESSING = 'Order Processing'
+    CLOSED = 'Closed'
+    RECEIVED = 'Received'
+
+    STATUS_CHOICES = [
+        (OPEN, 'Open'),
+        (ORDER_PROCESSING, 'Order Processing'),
+        (CLOSED, 'Closed'),
+        (RECEIVED, 'Received'),
+    ]
+
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     group_image = models.ImageField(upload_to='groups/', null=True, blank=True)
     short_description = models.TextField()
     group_region = models.CharField(max_length=100)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_CHOICES.OPEN)
-    
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES)  # Remove default
+
     # Add quantity and total amount fields
     quantity = models.PositiveIntegerField(default=1)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)

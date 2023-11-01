@@ -1,7 +1,7 @@
 # dashboard/views.py
 from django.shortcuts import render
 from products.models import Product
-from favorites.models import Favorite
+from favourites.models import Favorite
 from groups.models import Group
 
 def dashboard(request):

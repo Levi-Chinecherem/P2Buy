@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,11 +12,6 @@
     <!-- Add any additional CSS or libraries here -->
     <link rel="stylesheet" href="{% static 'your-custom-styles.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- Authentication checks for user-specific links -->
-    {% if user.is_authenticated %}
-        <link rel="stylesheet" href="{% url 'static' 'your-authenticated-styles.css' %}">
-    {% endif %}
     
     <script type="text/javascript" src="{% static 'root/ckeditor/ckeditor-init.js' %}"></script>
     <script type="text/javascript" src="{% static 'root/ckeditor/ckeditor/ckeditor.js' %}"></script>
@@ -25,12 +21,13 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{% url 'product_list' %}">P2Buy</a>
+        <a class="navbar-brand" href="{% url 'home' %}">P2Buy</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
+                {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'product_list' %}">Product List</a>
                 </li>
@@ -42,10 +39,7 @@
                 </li>
                 <!-- Add more navigation links for your other apps -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'notifications_list' %}">Notifications</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'payments_list' %}">Payments</a>
+                    <a class="nav-link" href="{% url 'notification_list' %}">Notifications</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
@@ -54,10 +48,22 @@
                     <a class="nav-link" href="{% url 'feedback_list' %}">Feedback</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'recommendations' %}">Recommendations</a>
+                    <a class="nav-link" href="{% url 'userprofile' %}">Profile</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
+        
     </nav>
 
     <div class="container mt-3">
@@ -68,7 +74,7 @@
     <!-- Footer -->
     <footer class="footer bg-light text-center fixed-bottom">
         <div class="container">
-            <span class="text-muted">Your footer content here.</span>
+            <span class="text-muted">P2Buy 2023</span>
         </div>
     </footer>
     
