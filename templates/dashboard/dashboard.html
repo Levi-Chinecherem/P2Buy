@@ -1,0 +1,60 @@
+<!-- dashboard.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Dashboard</h1>
+
+  <div class="chart">
+    <canvas id="productChart" width="400" height="200"></canvas>
+  </div>
+  <div class="chart">
+    <canvas id="favoriteChart" width="400" height="200"></canvas>
+  </div>
+  <div class="chart">
+    <canvas id="groupChart" width="400" height="200"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const productCount = {{ product_count }};
+    const favoriteCount = {{ favorite_count }};
+    const groupCount = {{ group_count }};
+
+    const productChartCanvas = document.getElementById('productChart').getContext('2d');
+    const favoriteChartCanvas = document.getElementById('favoriteChart').getContext('2d');
+    const groupChartCanvas = document.getElementById('groupChart').getContext('2d');
+
+    new Chart(productChartCanvas, {
+      type: 'bar',
+      data: {
+        labels: ['Product Count'],
+        datasets: [{
+          label: 'Products',
+          data: [productCount],
+        }],
+      },
+    });
+
+    new Chart(favoriteChartCanvas, {
+      type: 'bar',
+      data: {
+        labels: ['Favorite Count'],
+        datasets: [{
+          label: 'Favorites',
+          data: [favoriteCount],
+        }],
+      },
+    });
+
+    new Chart(groupChartCanvas, {
+      type: 'bar',
+      data: {
+        labels: ['Group Count'],
+        datasets: [{
+          label: 'Groups',
+          data: [groupCount],
+        }],
+      },
+    });
+  </script>
+{% endblock %}

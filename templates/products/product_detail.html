@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            <h1>{{ product.name }}</h1>
+            <img src="{{ product.product_cover_image.url }}" alt="{{ product.name }}" style="max-width: 100%;">
+            <p>{{ product.short_description }}</p>
+            <p>{{ product.content | safe }}</p>
+            <p>Amount: ${{ product.amount }}</p>
+            <p>Category: {{ product.category.name }}</p>
+            <!-- Add more product details here -->
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" action="{% url 'add_to_group' product_id=product.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-block">Add to Group</button>
+                    </form>
+
+                    <form method="post" action="{% url 'add_to_favorites' product_id=product.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-info btn-block">Add to Favorites</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Similar Products</h3>
+    <div class="row">
+        {% for similar_product in similar_products %}
+            <div class="col-lg-6 col-md-12 col-sm-12 mb-4">
+                <div class="card">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <img src="{{ similar_product.product_cover_image.url }}" class="card-img" alt="{{ similar_product.name }}">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="{% url 'product_detail' similar_product.pk %}">{{ similar_product.name }}</a></h5>
+                                <p class="card-text">{{ similar_product.short_description }}</p>
+                                <p class="card-text">Price: ${{ similar_product.amount }}</p>
+                                <form method="post" action="{% url 'add_to_group' product_id=similar_product.pk %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success btn-block">Add to Group</button>
+                                </form>
+
+                                <form method="post" action="{% url 'add_to_favorites' product_id=similar_product.pk %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-info btn-block">Add to Favorites</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Your Favorite Products</h1>
+    <form method="get">
+        <input type="text" name="q" placeholder="Search by Name or Description">
+        <select name="category">
+            <option value="" selected>Filter by Category</option>
+            {% for category in categories %}
+                <option value="{{ category.name }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Short Description</th>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for favorite in filtered_favorites %}
+                <tr>
+                    <td>{{ favorite.product.name }}</td>
+                    <td>{{ favorite.product.short_description }}</td>
+                    <td>${{ favorite.product.amount }}</td>
+                    <td>{{ favorite.product.category.name }}</td>
+                    <td>
+                        <a href="{% url 'product_detail' favorite.product.pk %}" class="btn btn-primary">Details</a>
+                        <a href="{% url 'remove_from_favorites' favorite.product.pk %}" class="btn btn-danger">Remove from Favorites</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

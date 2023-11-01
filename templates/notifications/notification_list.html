@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Notifications</h1>
+    <div id="notification-container">
+        {% for notification in notifications %}
+            <div class="card {% if notification.is_read %}bg-light{% endif %}" data-notification-id="{{ notification.id }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ notification.subject }}</h5>
+                    <p class="card-text">{{ notification.message }}</p>
+                    <button class="mark-as-read btn btn-primary btn-sm">Mark as Read</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.mark-as-read').click(function () {
+                var notificationId = $(this).closest('.card').data('notification-id');
+                $.ajax({
+                    url: '/mark_as_read/' + notificationId + '/',
+                    type: 'POST',
+                    data: { csrfmiddlewaretoken: '{{ csrf_token }}' },
+                    success: function () {
+                        $(this).closest('.card').addClass('bg-light');
+                    }.bind(this),
+                });
+            });
+        });
+    </script>
+</div>
+{% endblock %}

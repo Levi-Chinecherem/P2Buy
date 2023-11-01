@@ -1,0 +1,26 @@
+{% extends 'accounts_base.html' %}
+{% block title %}Profile{% endblock %}
+{% block card_title %}Profile{% endblock %}
+
+{% block content %}
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">Email:</label>
+            {{ form.email }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.first_name.id_for_label }}">First Name:</label>
+            {{ form.first_name }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
+            {{ form.last_name }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.address.id_for_label }}">Address:</label>
+            {{ form.address }}
+        </div>
+        <button type="submit" class="btn btn-primary">Save Profile</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card">
+        <img src="{{ group.group_image.url }}" class="card-img-top" alt="{{ group.name }}">
+        <div class="card-body">
+            <h1 class="card-title">{{ group.name }}</h1>
+            <p class="card-text">{{ group.short_description }}</p>
+            <p class="card-text">Region: {{ group.group_region }}</p>
+            <p class="card-text">Status: {{ group.status }}</p>
+        </div>
+    </div>
+{% endblock %}
